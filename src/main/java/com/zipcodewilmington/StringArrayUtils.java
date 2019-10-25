@@ -1,5 +1,7 @@
 package com.zipcodewilmington;
-import java.util.Arrays;
+import java.io.StringBufferInputStream;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by leon on 1/29/18.
@@ -105,30 +107,43 @@ public class StringArrayUtils {
      */ // TODO
     public static boolean isPangramic(String[] array) {
 
-        String[] alpha = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
-                "q", "r", "s", "t", "u",
-        "v", "w", "x", "y", "z"};
+        String stringArr = Arrays.toString(array).toLowerCase();
+
+        stringArr = stringArr.replace(",", "");
+        stringArr = stringArr.replace(" ", "");
 
 
-       for(int i = 0; i < array.length; i++){
-           System.out.println(array.length;);
+        HashSet<String> inputSet = new HashSet<>(Arrays.asList(stringArr.split("")));
 
-            }
-
-
+        return inputSet.size() == 28;
+    }
 
 
-        return false;
-}
 
 
-    /**
-     * @param array array of String objects
-     * @param value value to check array for
-     * @return number of occurrences the specified `value` has occurred
-     */ // TODO
+
+
+
+
+
+                /**
+                 * @param array array of String objects
+                 * @param value value to check array for
+                 * @return number of occurrences the specified `value` has occurred
+                 */ // TODO
     public static int getNumberOfOccurrences(String[] array, String value) {
-        return 0;
+
+       //if value is reached add +1
+        int count = 0;
+        //if I == value count++
+
+        for(int i = 0; i < array.length; i++) {
+            if (array[i] == value) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     /**
@@ -137,7 +152,19 @@ public class StringArrayUtils {
      * @return array with identical contents excluding values of `value`
      */ // TODO
     public static String[] removeValue(String[] array, String valueToRemove) {
-        return null;
+        //if I reaches valuetoremove -1
+        String[] b = new String[ array.length  - 1];
+        int count = 0;
+
+
+        for(int i = 0; i < array.length; i++){
+
+            if ( array[i] != valueToRemove) {
+                b[count] = array[i];
+                count++;
+            }
+        }
+        return b;
     }
 
     /**
@@ -145,7 +172,24 @@ public class StringArrayUtils {
      * @return array of Strings with consecutive duplicates removes
      */ // TODO
     public static String[] removeConsecutiveDuplicates(String[] array) {
-        return null;
+        ArrayList<String> arrList = new ArrayList<>();
+
+           // int count = 0;
+            for(int i =0; i < array.length; i++){
+                String arrStr = array[i];
+                arrList.add(arrStr);
+                for(int j = i + 1; j < array.length; j++){
+                    if(array[j].equals(arrStr) ){
+                        i++;
+                    } else {
+                        break;
+                    }
+
+                }
+            }
+            String[] result = new String[arrList.size()];
+            result = arrList.toArray(result);
+            return result;
     }
 
     /**
@@ -153,8 +197,24 @@ public class StringArrayUtils {
      * @return array of Strings with each consecutive duplicate occurrence concatenated as a single string in an array of Strings
      */ // TODO
     public static String[] packConsecutiveDuplicates(String[] array) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+        ArrayList<String> newArr = new ArrayList<>();
+
+        for (int i = 0; i < array.length; i++) {
+            int j = i + 1;
+            builder.append(array[i]);
+            while (j < array.length && array[i].equals(array[j])) {
+                builder.append(array[j]);
+                j++;
+            }
+            newArr.add(builder.toString());
+            builder = new StringBuilder();
+            i = j - 1;
+        }
+
+        return newArr.toArray(new String[newArr.size()]);
     }
+
 
 
 }
